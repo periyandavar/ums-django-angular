@@ -1,0 +1,35 @@
+<div class="content-wrapper mt-md-5 p-3">
+    <div class="container bg-info p-4 rounded">
+        <div class="row pad-botm login-container">
+            <div class="col-md-12">
+                <h4 class="header-line">Profile: Change Password</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading"></div>
+                    <form name="form" (ngSubmit)="submit()" #profileForm="ngForm" passMatchValidator>
+                        <div id="form">
+                            <div class="form-group"><label for="password_first" class="required">New Password</label>
+                                <input type="password" id="password_first" [(ngModel)]="model.password" name="password" required="required" strongPassword class="password-field form-control" #password="ngModel">
+                                <div *ngIf="password.invalid && password.dirty" class="alert alert-danger">
+                                    Password should have atleast one uppercase, one lowercase, one number and one special character such as '$@$!%*?&'.
+                                </div>
+                            </div>
+                            <div class="form-group"><label for="password_second" class="required">Confirm password</label>
+                                <input type="password" id="password_second" [(ngModel)]="model.confirmPassword" name="confirm-password" required="required" class="password-field form-control" #confirmPass="ngModel">
+                                <div *ngIf="(confirmPass.invalid && confirmPass.dirty) || (confirmPass.dirty && profileForm.errors?.notSame)" class="alert alert-danger">
+                                    Password and confirm password should match.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" [disabled]="!profileForm.form.valid">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

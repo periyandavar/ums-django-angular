@@ -1,0 +1,64 @@
+<h5>Personal details</h5>
+<div class="row">
+    <div class="col">
+        First Name
+    </div>
+    <div class="col">
+        <!-- {{ user?.firstName }} -->
+        {{ user?.first_name }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Last Name
+    </div>
+    <div class="col">
+        <!-- {{ user?.lastName }} -->
+        {{ user?.last_name }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Date of Birth
+    </div>
+    <div class="col">
+        {{ user?.dob | date }} ({{age}})
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Blood Group
+    </div>
+    <div class="col">
+        <!-- {{ user?.bloodGroup?.value }} -->
+        {{ user?.blood_group?.value }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Gender
+    </div>
+    <div class="col">
+        {{ user?.gender?.value }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Mobile Number
+    </div>
+    <div class="col">
+        <ng-container *ngFor="let mobileNo of user?.mobile">
+            {{mobileNo.mobile}}<br>
+        </ng-container>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        Email Id
+    </div>
+    <div class="col">
+        <ng-container *ngFor="let email of user?.email">
+            {{email.email}}<br>
+        </ng-container>
+    </div>
+</div>

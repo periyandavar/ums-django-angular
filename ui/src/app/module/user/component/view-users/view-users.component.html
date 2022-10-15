@@ -1,0 +1,54 @@
+<div class="content-wrapper mt-md-3 p-2">
+    <div class="container p-3 rounded">
+        <div class="row pad-botm login-container">
+            <div class="col-md-8">
+                <h5 class="header-line"> Users </h5>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Sl.No </th>
+                    <th> # </th>
+                    <th> First Name </th>
+                    <th> Last Name </th>
+                    <th> DOB </th>
+                    <th> Blood Group </th>
+                    <th> Gender </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="users$ | async as users">
+                    <tr *ngFor="let user of users| paginate: { id:'user_pagination', itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalRecords }; index as i ">
+                        <td> {{ i+1 }} </td>
+                        <td> #{{ user.id }} </td>
+                        <!-- <td> {{ user.firstName }} </td>
+                        <td> {{ user.lastName }} </td> -->
+                        <td> {{ user.first_name }} </td>
+                        <td> {{ user.last_name }} </td>
+                        <td> {{ user.dob|date }} </td>
+                        <!-- <td> {{ user.bloodGroup.value }} </td> -->
+                        <td> {{ user.blood_group.value }} </td>
+                        <td> {{ user.gender.value }} </td>
+                        <td>
+                            <a [routerLink]="['/users', user.id]" actionIcons="view"></a>&nbsp;
+                            <a [routerLink]="['/users/edit', user.id]" actionIcons="edit"></a>&nbsp;
+                            <button (click)="deleteUser(user.id)" actionIcons="delete"></button>&nbsp;
+                            <!-- <a [routerLink]="['/users', user.id]" class="btn btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp; -->
+                            <!-- <a [routerLink]="['/users/edit', user.id]" class="btn btn-success"><i class="fa fa-pencil-alt" aria-hidden="true"></i></a>&nbsp; -->
+                            <!-- <button (click)="deleteUser(user.id)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>&nbsp; -->
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div class="float-end">
+            <pagination-controls id="user_pagination" (maxSize)="5" (pageChange)="getPage((page = $event))">
+            </pagination-controls>
+
+        </div>
+
+    </div>
+</div>
