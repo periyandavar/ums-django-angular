@@ -1,0 +1,30 @@
+<div class="content-wrapper mt-md-5 p-3">
+    <div class="container bg-info p-4 rounded" style="max-width:900px;">
+        <div class="row pad-botm login-container">
+            <div class="col-md-12">
+                <h4 class="header-line"> User Details </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <button class="btn-secondary btn" (click)="loadComponents(0)">Personal Details</button> &nbsp;
+                        <button class="btn-danger btn" (click)="loadComponents(1)">Educational Details</button> &nbsp;
+
+                        <div class="container m-3 p-3">
+                            <ng-template host></ng-template>
+                            <br>
+                            <div class="text-center">
+                                <a [routerLink]="['/users']" class="btn-primary btn">View All</a> &nbsp;
+                                <a [routerLink]="['/users/edit', user?.id]" class="btn-success btn">Edit</a> &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

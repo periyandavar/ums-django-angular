@@ -1,0 +1,5 @@
+<app-loading-spinner *ngIf="showLoading | async"></app-loading-spinner>
+
+<div [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>

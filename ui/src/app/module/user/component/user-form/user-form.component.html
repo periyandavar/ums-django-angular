@@ -1,0 +1,501 @@
+<div class="content-wrapper mt-md-5 p-3">
+    <div class="container bg-info p-4 rounded">
+        <div class="row pad-botm login-container">
+            <div class="col-md-12">
+                <h4 class="header-line">
+                    <ng-content select="[title]"></ng-content>
+                </h4>
+                <div *ngIf="expanded">
+                    <ng-container [ngTemplateOutlet]="content.templateRef"></ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <form name="user" (ngSubmit)="submit()" [formGroup]="userFormGroup">
+                            <div *ngIf="errors.form">
+                                <div *ngFor="let error of errors.form" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            </div>
+                            <div class="my-custom-class-for-errors">
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_first_name" class="required">First name</label>
+                                <input type="text" formControlName="first_name" id="user_first_name" required="required" maxlength="255" pattern="[a-zA-Z ]+" class="form-control" placeholder="First name">
+                                <div *ngFor="let error of errors.first_name" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                <div *ngIf="userFormGroup.get('first_name')?.invalid && (userFormGroup.get('first_name')?.dirty || userFormGroup.get('first_name')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.get('first_name')?.errors?.required">
+                                        Value is required.
+                                    </div>
+                                    <div *ngIf="userFormGroup.get('first_name')?.errors?.pattern">
+                                        Please enter the valid first name.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_last_name" class="required">Last name</label>
+                                <input type="text" formControlName="last_name" id="user_last_name" required="required" maxlength="255" pattern="[a-zA-Z ]+" class="form-control" placeholder="Last name" />
+                                <div *ngFor="let error of errors.last_name" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                <div *ngIf="userFormGroup.get('last_name')?.invalid && (userFormGroup.get('last_name')?.dirty || userFormGroup.get('last_name')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.get('last_name')?.errors?.required">
+                                        Value is required.
+                                    </div>
+                                    <div *ngIf="userFormGroup.get('last_name')?.errors?.pattern">
+                                        Please enter the valid last name.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div formArrayName="emailIds">
+                                <legend class="col-form-label required">Email ids</legend>
+                                <div *ngFor="let emailId of emailIds.controls; let i=index" class="form-group">
+                                    <div [formGroupName]="i">
+                                        <label class="required" for="emailId-{{ i }}">Email:</label>
+                                        <input class="form-control" placeholder="Email id" id="emailId-{{ i }}" required type="email" formControlName="email">
+                                        <button (click)="emailIds.removeAt(i)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>&nbsp;
+                                        <div *ngFor="let error of errors.emailIds[i]?.email.email" class="alert alert-danger">
+                                            {{ error }}
+                                    </div>
+                                        <div *ngIf="emailId.get('email')?.invalid && (emailId.get('email')?.dirty || emailId.get('email')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="emailId.get('email')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                            <div *ngIf="emailId.get('email')?.errors?.email">
+                                                Please enter the valid email.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button (click)="addEmailIds()" type="button" class="btn btn-secondary">Add email</button>
+                            </div>
+                            <div formArrayName="mobileNos">
+                                <legend class="col-form-label required">Mobile numbers</legend>
+
+                                <div *ngFor="let mobileNo of mobileNos.controls; let i=index" class="form-group">
+                                    <div [formGroupName]="i">
+                                        <label class="required" for="mobileNo-{{ i }}">Mobile number:</label>
+                                        <input class="form-control" placeholder="Mobile number" id="mobileNo-{{ i }}" type="text" required="required" maxlength="10" pattern=".{10,}" formControlName="mobileNumber">
+                                        <button (click)="mobileNos.removeAt(i)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>&nbsp;
+                                        <div *ngIf="errors.mobileNos">
+                                            <div *ngFor="let error of errors.mobileNos[i]?.mobileNumber.mobileNumber" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="mobileNo.get('mobileNumber')?.invalid && (mobileNo.get('mobileNumber')?.dirty || mobileNo.get('mobileNumber')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="mobileNo.get('mobileNumber')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                            <div *ngIf="mobileNo.get('mobileNumber')?.errors?.pattern">
+                                                Please enter the valid mobile number.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button (click)="addMobileNos()" type="button" class="add-another-collection-widget btn btn-secondary" data-list-selector="#mobile-fields-list">Add mobile number</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="user_dob" class="required">Date of birth</label>
+                                <input type="date" formControlName="dob" id="user_dob" required="required" class="form-control" />
+                                <div *ngFor="let error of errors.dob" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                <div *ngIf="userFormGroup.get('dob')?.invalid && (userFormGroup.get('dob')?.dirty || userFormGroup.get('dob')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.get('dob')?.errors?.required">
+                                        Value is required.
+                                    </div>
+                                    <div *ngIf="userFormGroup.get('dob')?.errors?.pattern">
+                                        Please enter the valid date of birth.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div formArrayName="educationDetails">
+
+                                <legend class="col-form-label required">Education details</legend>
+                                <div *ngIf="educationDetails?.at(0)" [formGroupName]="0">
+                                    <div class="form-group">
+                                        <label class="required" for="user_educationDetails_0_course">Select course name</label>
+                                        <select [attr.disabled]="true" formControlName="course" id="user_educationDetails_0_course" required="required" class="form-control">
+                                            <option value="1">SSLC</option>
+                                    </select>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[0]?.course?.course" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('course')?.invalid && (educationDetails?.at(0)?.get('course')?.dirty || educationDetails?.at(0)?.get('course')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(0)?.get('course')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="required" for="user_educationDetails_0_stream">Select stream</label>
+                                        <select formControlName="stream" id="user_educationDetails_0_stream" required="required" class="form-control">
+                                        <option value="">Select the education stream</option>
+                                        <ng-container *ngFor="let stream of streams[0]">
+                                            <option [value]="stream.id">{{stream.value}}</option>
+                                        </ng-container>
+                                    </select>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[0]?.stream?.stream" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('stream')?.invalid && (educationDetails?.at(0)?.get('stream')?.dirty || educationDetails?.at(0)?.get('stream')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(0)?.get('stream')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_0_percentage" class="required">Percentage</label>
+                                        <div class="input-group">
+                                            <input formControlName="percentage" max="100" min="0" type="text" id="user_educationDetails_0_percentage" required="required" class="form-control" placeholder="Percentage" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[0]?.percentage?.percentage" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('percentage')?.invalid && (educationDetails?.at(0)?.get('percentage')?.dirty || educationDetails?.at(0)?.get('percentage')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(0)?.get('percentage')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                            <div *ngIf="educationDetails?.at(0)?.get('percentage')?.errors?.max || educationDetails?.at(0)?.get('percentage')?.errors?.min">
+                                                Invalid percentage
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_0_institution" class="required">Institution</label>
+                                        <input formControlName="institution" id="user_educationDetails_0_institution" type="text" required="required" maxlength="255" class="form-control" placeholder="Institution" />
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[0]?.institution?.institution" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('institution')?.invalid && (educationDetails?.at(0)?.get('institution')?.dirty || educationDetails?.at(0)?.get('institution')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(0)?.get('institution')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_0_institutionAddress" class="required">Institution address</label>
+                                        <textarea id="user_educationDetails_0_institutionAddress" formControlName="institutionAddress" required="required" class="form-control" placeholder="Institution Address"></textarea>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[0]?.institutionAddress?.institutionAddress" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('institutionAddress')?.invalid && (educationDetails?.at(0)?.get('institutionAddress')?.dirty || educationDetails?.at(0)?.get('institutionAddress')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(0)?.get('institutionAddress')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_0_passout" class="required">Passout</label>
+                                        <input formControlName="passout" id="user_educationDetails_0_passout" type="number" required class="form-control" placeholder="Passout" /></div>
+                                    <div *ngIf="userFormGroup?.invalid && (userFormGroup?.dirty || userFormGroup?.touched) && userFormGroup?.errors?.invalidPassout1" class="alert alert-danger">
+                                        Passout year looks like invalid pleaese check it.
+                                    </div>
+                                    <div *ngIf="errors.educationDetails">
+                                        <div *ngFor="let error of errors.educationDetails[0]?.passout.passout" class="alert alert-danger">
+                                            {{ error }}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="educationDetails?.at(0)?.get('passout')?.invalid && (educationDetails?.at(0)?.get('passout')?.dirty || educationDetails?.at(0)?.get('passout')?.touched)" class="alert alert-danger">
+                                        <div *ngIf="educationDetails?.at(0)?.get('passout')?.errors?.required">
+                                            Value is required.
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(0)?.get('passout')?.errors?.pattern">
+                                            Invalid value
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div *ngIf="educationDetails?.at(1)" [formGroupName]="1">
+                                    <div class="form-group">
+                                        <label class="required" for="user_educationDetails_1_course">Select course name</label>
+                                        <select [attr.disabled]="true" (change)="loadStreams(1)" formControlName="course" id="user_educationDetails_1_course" required="required" class="form-control">
+                                            <option value="2">HSC</option>
+                                    </select>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[1]?.course?.course" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('course')?.invalid && (educationDetails?.at(1)?.get('course')?.dirty || educationDetails?.at(1)?.get('course')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(1)?.get('course')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="required" for="user_educationDetails_1_stream">Select stream</label>
+                                        <select formControlName="stream" id="user_educationDetails_1_stream" required="required" class="form-control">
+                                        <option value="">Select the education stream</option>
+                                        <ng-container *ngFor="let stream of streams[1]">
+                                            <option [value]="stream.id">{{stream.value}}</option>
+                                        </ng-container>
+                                    </select>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[1]?.stream?.stream" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('stream')?.invalid && (educationDetails?.at(1)?.get('stream')?.dirty || educationDetails?.at(1)?.get('stream')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(1)?.get('stream')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_1_percentage" class="required">Percentage</label>
+                                        <div class="input-group">
+                                            <input formControlName="percentage" max="100" min="0" type="text" id="user_educationDetails_1_percentage" required="required" class="form-control" placeholder="Percentage" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[1]?.percentage?.percentage" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('percentage')?.invalid && (educationDetails?.at(1)?.get('percentage')?.dirty || educationDetails?.at(1)?.get('percentage')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(1)?.get('percentage')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                            <div *ngIf="educationDetails?.at(1)?.get('percentage')?.errors?.max || educationDetails?.at(1)?.get('percentage')?.errors?.min">
+                                                Invalid percentage
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_1_institution" class="required">Institution</label>
+                                        <input formControlName="institution" id="user_educationDetails_1_institution" type="text" required="required" maxlength="255" class="form-control" placeholder="Institution" />
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[1]?.institution?.institution" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('institution')?.invalid && (educationDetails?.at(1)?.get('institution')?.dirty || educationDetails?.at(1)?.get('institution')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(1)?.get('institution')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_1_institutionAddress" class="required">Institution address</label>
+                                        <textarea id="user_educationDetails_1_institutionAddress" formControlName="institutionAddress" required="required" class="form-control" placeholder="Institution Address"></textarea>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[1]?.institutionAddress?.institutionAddress" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('institutionAddress')?.invalid && (educationDetails?.at(1)?.get('institutionAddress')?.dirty || educationDetails?.at(1)?.get('institutionAddress')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetails?.at(1)?.get('institutionAddress')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_educationDetails_1_passout" class="required">Passout</label>
+                                        <input formControlName="passout" id="user_educationDetails_1_passout" type="number" required class="form-control" placeholder="Passout" />
+                                        <div *ngIf="userFormGroup?.invalid && (userFormGroup?.dirty || userFormGroup?.touched) && userFormGroup?.errors?.invalidPassout2" class="alert alert-danger">
+                                            Passout year looks like invalid please check it.
+                                        </div>
+                                    </div>
+                                    <div *ngIf="errors.educationDetails">
+                                        <div *ngFor="let error of errors.educationDetails[1]?.passout.passout" class="alert alert-danger">
+                                            {{ error }}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="educationDetails?.at(1)?.get('passout')?.invalid && (educationDetails?.at(1)?.get('passout')?.dirty || educationDetails?.at(1)?.get('passout')?.touched)" class="alert alert-danger">
+                                        <div *ngIf="educationDetails?.at(1)?.get('passout')?.errors?.required">
+                                            Value is required.
+                                        </div>
+                                        <div *ngIf="educationDetails?.at(1)?.get('passout')?.errors?.pattern">
+                                            Invalid value
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div *ngFor="let educationDetail of educationDetails.controls| slice:2; let i=index" class="form-group">
+                                    <div [formGroupName]="i+2">
+                                        <div class="form-group">
+                                            <label class="required" for="user_educationDetails_{{i+2}}_course">Select course name</label>
+                                            <select (change)="loadStreams(i+2)" formControlName="course" id="user_educationDetails_{{i+2}}_course" required="required" class="form-control">
+                                                <option value="">Select course</option>
+                                                <ng-container *ngFor="let course of courses">
+                                                    <option [value]="course.id">{{course.value}}</option>
+                                                </ng-container>
+                                        </select>
+                                            <div *ngIf="errors.educationDetails">
+                                                <div *ngFor="let error of errors.educationDetails[i+2]?.course?.course" class="alert alert-danger">
+                                                    {{ error }}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="educationDetail.get('course')?.invalid && (educationDetail.get('course')?.dirty || educationDetail.get('course')?.touched)" class="alert alert-danger">
+                                                <div *ngIf="educationDetail.get('course')?.errors?.required">
+                                                    Value is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="required" for="user_educationDetails_{{i+2}}_stream">Select stream</label>
+                                            <select formControlName="stream" id="user_educationDetails_{{i+2}}_stream" required="required" class="form-control">
+                                            <option value="">Select the education stream</option>
+                                            <ng-container *ngFor="let stream of streams[i+2]">
+                                                <option [value]="stream.id">{{stream.value}}</option>
+                                            </ng-container>
+                                        </select>
+                                            <div *ngIf="errors.educationDetails">
+                                                <div *ngFor="let error of errors.educationDetails[i+2]?.stream?.stream" class="alert alert-danger">
+                                                    {{ error }}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="educationDetail.get('stream')?.invalid && (educationDetail.get('stream')?.dirty || educationDetail.get('stream')?.touched)" class="alert alert-danger">
+                                                <div *ngIf="educationDetail.get('stream')?.errors?.required">
+                                                    Value is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_educationDetails_{{i+2}}_percentage" class="required">Percentage</label>
+                                            <div class="input-group">
+                                                <input formControlName="percentage" max="100" min="0" type="text" id="user_educationDetails_{{i+2}}_percentage" required="required" class="form-control" placeholder="Percentage" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="errors.educationDetails">
+                                                <div *ngFor="let error of errors.educationDetails[i+2]?.percentage?.percentage" class="alert alert-danger">
+                                                    {{ error }}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="educationDetail.get('percentage')?.invalid && (educationDetail.get('percentage')?.dirty || educationDetail.get('percentage')?.touched)" class="alert alert-danger">
+                                                <div *ngIf="educationDetail.get('percentage')?.errors?.required">
+                                                    Value is required.
+                                                </div>
+                                                <div *ngIf="educationDetail.get('percentage')?.errors?.min || educationDetail.get('percentage')?.errors?.max">
+                                                    Invalid percentage
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_educationDetails_{{i+2}}_institution" class="required">Institution</label>
+                                            <input formControlName="institution" id="user_educationDetails_{{i+2}}_institution" type="text" required="required" maxlength="255" class="form-control" placeholder="Institution" />
+                                            <div *ngIf="errors.educationDetails">
+                                                <div *ngFor="let error of errors.educationDetails[i+2]?.institution?.institution" class="alert alert-danger">
+                                                    {{ error }}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="educationDetail.get('institution')?.invalid && (educationDetail.get('institution')?.dirty || educationDetail.get('institution')?.touched)" class="alert alert-danger">
+                                                <div *ngIf="educationDetail.get('institution')?.errors?.required">
+                                                    Value is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_educationDetails_{{i+2}}_institutionAddress" class="required">Institution address</label>
+                                            <textarea id="user_educationDetails_{{i+2}}_institutionAddress" formControlName="institutionAddress" required="required" class="form-control" placeholder="Institution Address"></textarea>
+                                            <div *ngIf="errors.educationDetails">
+                                                <div *ngFor="let error of errors.educationDetails[i+2]?.institutionAddress?.institutionAddress" class="alert alert-danger">
+                                                    {{ error }}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="educationDetail.get('institutionAddress')?.invalid && (educationDetail.get('institutionAddress')?.dirty || educationDetail.get('institutionAddress')?.touched)" class="alert alert-danger">
+                                                <div *ngIf="educationDetail.get('institutionAddress')?.errors?.required">
+                                                    Value is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_educationDetails_{{i+2}}_passout" class="required">Passout</label>
+                                            <input formControlName="passout" id="user_educationDetails_{{i+2}}_passout" type="number" required class="form-control" placeholder="Passout" />
+                                        </div>
+                                        <div *ngIf="userFormGroup?.invalid && (userFormGroup?.dirty || userFormGroup?.touched) && userFormGroup?.errors?.invalidPassout[i+2]" class="alert alert-danger">
+                                            Passout year looks like invalid please check it.
+                                        </div>
+                                        <div *ngIf="errors.educationDetails">
+                                            <div *ngFor="let error of errors.educationDetails[i+2]?.passout.passout" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                        <div *ngIf="educationDetail.get('passout')?.invalid && (educationDetail.get('passout')?.dirty || educationDetail.get('passout')?.touched)" class="alert alert-danger">
+                                            <div *ngIf="educationDetail.get('passout')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                            <div *ngIf="educationDetail.get('passout')?.errors?.pattern">
+                                                Invalid value
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button (click)="educationDetails.removeAt(i+2)" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>&nbsp;
+                                </div>
+
+                                <button type="button" (click)="addEducationDetails()" class="add-another-collection-widget btn btn-secondary" data-list-selector="#education-fields-list">Add details</button>
+
+                            </div> -->
+                            <div class="form-group">
+                                <label class="required" for="user_bloodGroup">Blood group</label>
+                                <select id="user_bloodGroup" formControlName="blood_group" name="user[bloodGroup]" required="required" class="form-control">
+                                    <option value="">Select blood group</option>
+                                    <ng-container *ngFor="let bloodGroup of bloodGroups">
+                                        <option [value]="bloodGroup.id">{{bloodGroup.value}}</option>
+                                    </ng-container>
+                                </select>
+                                <div *ngFor="let error of errors.bloodGroup" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                <div *ngIf="userFormGroup.get('bloodGroup')?.invalid && (userFormGroup.get('bloodGroup')?.dirty || userFormGroup.get('bloodGroup')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.get('bloodGroup')?.errors?.required">
+                                        Value is required.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required" for="user_gender">Gender</label>
+                                <select id="user_gender" name="user[gender]" required="required" formControlName="gender" class="form-control">
+                                    <option value="">Select gender</option>
+                                    <ng-container *ngFor="let gender of genders">
+                                        <option [value]="gender.id">{{gender.value}}</option>
+                                    </ng-container>
+                                </select>
+                                <div *ngFor="let error of errors.gender" class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                                <div *ngIf="userFormGroup.get('gender')?.invalid && (userFormGroup.get('gender')?.dirty || userFormGroup.get('gender')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.get('gender')?.errors?.required">
+                                        Value is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group"><button type="submit" [disabled]="!userFormGroup.valid" id="user_save" name="user[save]" class="btn-primary btn">submit</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/users']" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/users/new']" routerLinkActive="active">New User</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Customize
+        </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" [routerLink]="['/profile']" routerLinkActive="active">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/genders']" routerLinkActive="active">Gender</a>
+                    <a class="dropdown-item" [routerLink]="['//blood-groups']" routerLinkActive="active">Blood Group</a>
+                    <!-- <a class="dropdown-item" [routerLink]="['/courses']" routerLinkActive="active">Education Course</a>
+                    <a class="dropdown-item" [routerLink]="['/streams']" routerLinkActive="active">Education Stream</a> -->
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/logout']" routerLinkActive="active">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>

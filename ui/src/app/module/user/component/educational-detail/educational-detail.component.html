@@ -1,0 +1,10 @@
+<h5>Education details</h5>
+<div class="row">
+
+    <div class="col">
+        <ng-container *ngFor="let educationDetail of user?.educationDetails">
+
+            <p [innerHTML]="educationDetail|eduactionDetails"></p>
+        </ng-container>
+    </div>
+</div>
