@@ -1,0 +1,18 @@
+:host {
+    position: fixed;
+    top: 25px;
+    left: 75%;
+    right: 25px;
+    background: #009cff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid black;
+    font-size: 20px;
+    color: white;
+}
+
+button {
+    border-radius: 50%;
+}

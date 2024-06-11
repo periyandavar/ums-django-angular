@@ -1,0 +1,76 @@
+<div class="content-wrapper">
+    <div class="container bg-info">
+        <div class="row pad-botm login-container">
+            <div class="col-md-12">
+                <h4 class="header-line"> SIGN UP </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <form name="form" (ngSubmit)="register()" [formGroup]="registerFormGroup">
+                            <div id="form">
+                                <div class="form-group"><label for="username" class="required">Username</label><input type="text" id="username" formControlName="username" name="username" required="required" class="form-control">
+                                    <div *ngIf="errors.username">
+                                        <div *ngFor="let error of errors.username" class="alert alert-danger">
+                                            {{ error }}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="
+                        registerFormGroup
+.get('username')?.invalid &&
+                        (registerFormGroup.get('username')?.dirty ||
+                          registerFormGroup.get('username')?.touched)
+                      " class="alert alert-danger">
+                                        <div *ngIf="registerFormGroup.get('username')?.errors?.required">
+                                            Value is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div formGroupName="password">
+                                    <div class="form-group"><label for="password_first" class="required">Password</label><input type="password" id="password_first" formControlName="first" name="password" required="required" class="password-field form-control">
+                                        <div *ngIf="
+                                        registerFormGroup.get('password')?.get('first')?.invalid &&
+                                        (registerFormGroup.get('password')?.get('first')?.dirty ||
+                                          registerFormGroup.get('password')?.get('first')?.touched)
+                                      " class="alert alert-danger">
+                                            <div *ngIf="registerFormGroup.get('password')?.get('first')?.errors?.pattern">
+                                                Password should have atleast one uppercase, one lowercase, one number and one special character such as '$@$!%*?&'.
+                                            </div>
+                                            <div *ngIf="registerFormGroup.get('password')?.get('first')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><label for="password_second" class="required">Confirm password</label><input type="password" id="password_second" formControlName="second" name="confirm-password" required="required" class="password-field form-control">
+                                        <div *ngIf="
+                                          registerFormGroup.get('password')?.invalid &&
+                                          (registerFormGroup.get('password')?.dirty ||
+                                            registerFormGroup.get('password')?.touched) &&
+                                            (registerFormGroup.get('password')?.errors?.notSame ||
+                                            (registerFormGroup.get('password')?.get('first')?.errors?.required))
+                                        " class="alert alert-danger">
+                                            <div *ngIf="registerFormGroup.get('password')?.errors?.notSame">
+                                                Password and confirm password should match.
+                                            </div>
+                                            <div *ngIf="registerFormGroup.get('password')?.get('first')?.errors?.required">
+                                                Value is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"><button type="submit" [disabled]="registerFormGroup.invalid" id="form_signUp" class="btn btn-primary float-right btn">Sign up</button></div>
+                            </div>
+                        </form>
+                        already have an account..? <a [routerLink]="['/login']"> login here </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

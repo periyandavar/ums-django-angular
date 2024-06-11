@@ -1,0 +1,17 @@
+.login-container {
+    margin: auto;
+    text-align: center;
+}
+
+.header-line {
+    text-align: center;
+}
+
+.container {
+    padding: 35px;
+    margin: auto;
+    width: 47%;
+    border: solid 2px black;
+    border-radius: 11px;
+    margin-top: 12%;
+}

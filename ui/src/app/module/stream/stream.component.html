@@ -1,0 +1,48 @@
+<div class="content-wrapper mt-md-3 p-2">
+    <div class="container p-3 rounded">
+        <div class="row pad-botm login-container">
+            <div class="col-md-8">
+            </div>
+        </div>
+        <h3>Education Stream <a [routerLink]="['/streams/new']" routerLinkActive="router-link-active" class="btn btn-info">Create new</a>
+        </h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Value</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="streams$ | async as streams">
+                    <tr *ngFor="let stream of streams| paginate: { id:'pagination_list', itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalRecords }; index as i ">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ stream.value }}</td>
+                        <ng-container *ngIf="stream.status;then enabled;else disabled"></ng-container>
+                        <ng-template #enabled>
+                            <td class="text-primary"> Enabled </td>
+                            <td>
+                                <button (click)="changeStatus(stream.id, false)" class="btn btn-danger">Disable</button> &nbsp;
+                                <a [routerLink]="['/streams/edit', stream.id]" class="btn btn-success">Edit</a>
+                            </td>
+                        </ng-template>
+                        <ng-template #disabled>
+                            <td class="text-primary"> Disabled </td>
+                            <td>
+                                <button (click)="changeStatus(stream.id, true)" class="btn btn-danger">Enable</button>&nbsp;
+                                <a [routerLink]="['/streams/edit', stream.id]" class="btn btn-success">Edit</a>
+                            </td>
+                        </ng-template>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div class="float-end">
+            <pagination-controls id="pagination_list" (maxSize)="5" (pageChange)="getPage((page = $event))">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
